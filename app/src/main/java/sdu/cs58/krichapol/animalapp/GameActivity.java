@@ -25,6 +25,7 @@ public class GameActivity extends AppCompatActivity {
     ArrayList<Integer> qID = new ArrayList<Integer>();// เป็น Array ในการสุ่มคำถาม
     String answer;// เก็บคำตอบ
     int score = 0;// รวมคะแนน
+    String getNameString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,22 +216,23 @@ public class GameActivity extends AppCompatActivity {
 
         Button button = (Button) view;
         String buttonString = button.getText().toString();
-        if (buttonString.equals(answer)){
+        if (buttonString.equals(answer)){ //ถ้าตอบตรงกัน จะได้คะแนนเพิ่ม 1 คะแนน
             score++;
         }
 
         if (qID.isEmpty()) { // ถ้าทำครบทุกข้อ qID จะเป็นค่าว่าง
-            dialogboxScore(); // เรียก dialogboxScore() Method เพื่อแสดงคะแนน
+            getNameString = getIntent().getStringExtra("Name");
+            dialogboxScore(getNameString); // เรียก dialogboxScore() Method เพื่อแสดงคะแนน
         } else { // ถ้าทำไม่ครบทุกข้อ
             setQuestion(qID.remove(0)); // เรียก setQuestion(int qID) Method แสดงคำถามข้อต่อไป
         }
 
     }// end choiceAns Method
 
-    private void dialogboxScore() {
+    private void dialogboxScore(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("สรุปคะแนน");
-        builder.setMessage("ได้คะแนน " + score + " คะแนน")
+        builder.setMessage(name + " ได้คะแนน " + score + " คะแนน")
             .setCancelable(false)
             .setPositiveButton("ออกจากเกม", new DialogInterface.OnClickListener() {
                 @Override
